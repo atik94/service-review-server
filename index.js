@@ -15,11 +15,29 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
   serverApi: ServerApiVersion.v1,
 });
-client.connect((err) => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
+
+async function run() {
+  try {
+    const serviceCollection = client.db("landryService").collection("services");
+    // app.post("/services", async (req, res) => {
+    //   const service = req.body;
+    //   console.log(service);
+    //   const result = await serviceCollection.insertOne(service);
+    //   res.send(result);
+    // });
+
+    app.post("/services", async (req, res) => {
+      const service = req.body;
+      // users.push(user);
+      const result = await serviceCollection.insertOne(service);
+      console.log(result);
+      res.send(result);
+      //user._id = result.insertedId;
+    });
+  } finally {
+  }
+}
+run().catch((err) => console.error(err));
 
 app.get("/", (req, res) => {
   res.send("service review server is running");
