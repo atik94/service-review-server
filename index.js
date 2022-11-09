@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, MongoCursorInUseError } = require("mongodb");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
@@ -25,7 +25,7 @@ async function run() {
     //   const result = await serviceCollection.insertOne(service);
     //   res.send(result);
     // });
-
+    //Add service api
     app.post("/services", async (req, res) => {
       const service = req.body;
       // users.push(user);
@@ -33,6 +33,13 @@ async function run() {
       console.log(result);
       res.send(result);
       //user._id = result.insertedId;
+    });
+    // Get service api
+    app.get("/services", async (req, res) => {
+      const query = {};
+      const cursor = serviceCollection.find(query);
+      const services = await cursor.toArray();
+      res.send(services);
     });
   } finally {
   }
