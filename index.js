@@ -20,12 +20,6 @@ async function run() {
   try {
     const serviceCollection = client.db("landryService").collection("services");
     const reviewCollection = client.db("landryService").collection("reviews");
-    // app.post("/services", async (req, res) => {
-    //   const service = req.body;
-    //   console.log(service);
-    //   const result = await serviceCollection.insertOne(service);
-    //   res.send(result);
-    // });
     //Add service api
     app.post("/services", async (req, res) => {
       const service = req.body;
@@ -33,7 +27,6 @@ async function run() {
       const result = await serviceCollection.insertOne(service);
       console.log(result);
       res.send(result);
-      //user._id = result.insertedId;
     });
     // Get service api
     app.get("/services", async (req, res) => {
@@ -57,13 +50,6 @@ async function run() {
           email: req.query.email,
         };
       }
-
-      // if (req.query.service) {
-      //   query = {
-      //     service: req.query.service,
-      //   };
-      // }
-
       const cursor = reviewCollection.find(query);
       const reviews = await cursor.toArray();
       res.send(reviews);
